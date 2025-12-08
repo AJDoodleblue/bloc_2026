@@ -13,6 +13,9 @@ const verifyOtpFlag = 'verify';
 const seenOnboarding = 'seenOnboarding';
 const pageLimit = 20;
 
+/// Token expiry time in minutes (for DummyJSON API)
+const tokenExpiryMins = 10;
+
 ///Const URL
 String termsAndConditionsURL = '${EnvInfo.webPageUrl}/terms-of-use';
 String privacyPolicyURL = '${EnvInfo.webPageUrl}/privacy-policy';

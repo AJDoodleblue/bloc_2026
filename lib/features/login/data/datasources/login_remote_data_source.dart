@@ -31,11 +31,14 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
           return Left(exception);
         },
         (response) {
-          LoginResponse user = LoginResponse.fromJson(response.data);
+          LoginResponse loginResponse = LoginResponse.fromJson(response.data);
 
-          networkService.updateHeader({'x-access-token': user.data!.token!});
+          // Update header with Bearer token for authenticated requests
+          networkService.updateHeader({
+            'Authorization': 'Bearer ${loginResponse.accessToken}',
+          });
 
-          return Right(user);
+          return Right(loginResponse);
         },
       );
     } catch (e) {

@@ -1,9 +1,14 @@
 {
   "LOGIN": "Login",
-  "EMAIL": "Email Id",
+  "USERNAME": "Username",
   "PASSWORD": "Password",
-  "SIGN_UP": "Sign Up",
-  "EMAIL_VALIDATION_TEXT": "Please enter your email address",
-  "ENTER_VALID_EMAIL": "Please enter a valid email address",
-  "PASSWORD_VALIDATION_TEXT": "Please enter your password"
+  "USERNAME_VALIDATION_TEXT": "Please enter your username",
+  "PASSWORD_VALIDATION_TEXT": "Please enter your password",
+  "DASHBOARD": "Dashboard",
+  "PRODUCTS": "Products",
+  "LOGOUT": "Logout",
+  "WELCOME": "Welcome",
+  "LOADING": "Loading...",
+  "ERROR": "Error",
+  "RETRY": "Retry"
 }

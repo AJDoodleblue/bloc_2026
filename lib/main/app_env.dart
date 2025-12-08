@@ -36,9 +36,9 @@ extension _EnvProperties on AppEnvironment {
   };
 
   static const _baseUrl = {
-    AppEnvironment.dev: 'http://example1.com/api/v1/',
-    AppEnvironment.stage: 'https://example2.com/api/v1/',
-    AppEnvironment.prod: 'https://example3.com/api/v1/',
+    AppEnvironment.dev: 'https://dummyjson.com/',
+    AppEnvironment.stage: 'https://dummyjson.com/',
+    AppEnvironment.prod: 'https://dummyjson.com/',
   };
 
   static const _envs = {

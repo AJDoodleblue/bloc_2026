@@ -7,12 +7,11 @@ import 'package:bloc_2026/core/utils/error_logger.dart';
 import 'package:bloc_2026/features/login/data/models/login_request.dart';
 import 'package:bloc_2026/features/login/data/models/login_response.dart';
 import 'package:bloc_2026/features/login/domain/usecases/login_usecase.dart';
-import 'package:equatable/equatable.dart';
+import 'package:bloc_2026/shared/models/user_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:get_it/get_it.dart';
-
-part 'login_state.dart';
+import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final LoginUseCases _loginUseCases;
@@ -20,118 +19,116 @@ class LoginCubit extends Cubit<LoginState> {
   final NetworkService _networkService;
 
   LoginCubit(this._loginUseCases)
-    : _hiveService = GetIt.instance<HiveService>(),
-      _networkService = GetIt.instance<NetworkService>(),
-      super(const LoginLoaded());
+      : _hiveService = GetIt.instance<HiveService>(),
+        _networkService = GetIt.instance<NetworkService>(),
+        super(const LoginState());
 
-  void validate(String email, String password, String deviceToken) {
-    final currentState = state;
-    if (currentState is LoginLoaded) {
-      String emailError = '';
-      String passwordError = '';
+  void validate(String username, String password) {
+    String usernameError = '';
+    String passwordError = '';
 
-      if (email.isEmpty) {
-        emailError = "EMAIL_VALIDATION_TEXT".tr;
-      } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
-        emailError = "ENTER_VALID_EMAIL".tr;
-      }
+    if (username.isEmpty) {
+      usernameError = "USERNAME_VALIDATION_TEXT".tr;
+    }
 
-      if (password.isEmpty) {
-        passwordError = "PASSWORD_VALIDATION_TEXT".tr;
-      }
+    if (password.isEmpty) {
+      passwordError = "PASSWORD_VALIDATION_TEXT".tr;
+    }
 
-      if (emailError.isNotEmpty || passwordError.isNotEmpty) {
-        emit(
-          currentState.copyWith(
-            emailError: emailError,
-            passwordError: passwordError,
-          ),
-        );
-      } else {
-        LoginRequest request = LoginRequest(
-          identifier: email,
-          password: password,
-          deviceToken: deviceToken,
-        );
-        login(request);
-      }
+    if (usernameError.isNotEmpty || passwordError.isNotEmpty) {
+      emit(state.copyWith(
+        usernameError: usernameError,
+        passwordError: passwordError,
+      ));
+    } else {
+      LoginRequest request = LoginRequest(
+        username: username,
+        password: password,
+        expiresInMins: tokenExpiryMins,
+      );
+      login(request);
     }
   }
 
   Future<void> login(LoginRequest user) async {
-    final currentState = state as LoginLoaded;
-    emit(currentState.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true));
+
     Either result = await _loginUseCases.login(user: user);
+
     result.fold(
       (error) {
         ErrorLogger.log('LoginCubit.login', error.identifier);
-        emit(
-          currentState.copyWith(
-            errorMessage: error.message,
-            isLoading: false,
-            isError: true,
-          ),
-        );
+        emit(state.copyWith(
+          message: error.message,
+          isLoading: false,
+          isFailure: true,
+          isSuccess: false,
+        ));
       },
-      (user) {
-        if (user.data != null) {
-          LoginResponse response = user as LoginResponse;
-          UserPreferences userPreferences = UserPreferences.instance;
-          userPreferences.setUser(user.data!);
-          String token = response.data!.token ?? '';
-          _hiveService.set(userToken, token);
-          _hiveService.setUser(response.data!);
-          // if (response.data?.faceId != null ||
-              // response.data?.fingerPrintId != null) {
-            // _hiveService.set(localAuth, enable);
-            // if (response.data?.faceId != null) {
-            //   _hiveService.set(faceIdAuth, enable);
-            // } else if (response.data?.fingerPrintId != null) {
-            //   _hiveService.set(fingerPrintAuth, enable);
-            // }
-          // }
-          _networkService.updateHeader({'x-access-token': token});
-          emit(LoginSuccess(user));
-        } else {
-          emit(
-            currentState.copyWith(
-              errorMessage: 'Internal Error occurred',
-              isLoading: false,
-              isError: true,
-            ),
-          );
-        }
+      (loginResponse) {
+        LoginResponse response = loginResponse as LoginResponse;
+
+        // Create UserData from LoginResponse
+        UserData userData = UserData(
+          id: response.id,
+          username: response.username,
+          email: response.email,
+          firstName: response.firstName,
+          lastName: response.lastName,
+          gender: response.gender,
+          image: response.image,
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken,
+        );
+
+        UserPreferences userPreferences = UserPreferences.instance;
+        userPreferences.setUser(userData);
+
+        String token = response.accessToken ?? '';
+        _hiveService.set(userToken, token);
+        _hiveService.setUser(userData);
+
+        _networkService.updateHeader({'Authorization': 'Bearer $token'});
+
+        emit(state.copyWith(
+          isLoading: false,
+          isSuccess: true,
+          isFailure: false,
+          loginData: response,
+        ));
       },
     );
   }
 
-  void validateEmail(String value) {
+  void validateUsername(String value) {
     String error = '';
-    final currentState = state;
     if (value.isEmpty) {
-      error = "EMAIL_VALIDATION_TEXT".tr;
+      error = "USERNAME_VALIDATION_TEXT".tr;
     }
-    // else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-    //   error = "ENTER_VALID_EMAIL".tr;
-    // }
-    if (currentState is LoginLoaded) {
-      emit(currentState.copyWith(emailError: error));
-    }
+    emit(state.copyWith(usernameError: error));
   }
 
   void validatePassword(String value) {
     String error = '';
-    final currentState = state;
     if (value.isEmpty) {
       error = "PASSWORD_VALIDATION_TEXT".tr;
     }
-    if (currentState is LoginLoaded) {
-      emit(currentState.copyWith(passwordError: error));
-    }
+    emit(state.copyWith(passwordError: error));
+  }
+
+  void clearState() {
+    emit(state.copyWith(
+      message: '',
+      isFailure: false,
+      isLoading: false,
+      isSuccess: false,
+    ));
   }
 
   void resetError() {
-    final currentState = state as LoginLoaded;
-    emit(currentState.copyWith(isLoading: false, isError: false));
+    emit(state.copyWith(
+      isFailure: false,
+      message: '',
+    ));
   }
 }

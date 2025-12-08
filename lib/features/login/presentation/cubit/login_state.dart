@@ -1,75 +1,53 @@
-part of 'login_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:bloc_2026/features/login/data/models/login_response.dart';
 
-sealed class LoginState extends Equatable {
-  const LoginState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class LoginInitial extends LoginState {
-  const LoginInitial();
-}
-
-final class LoginLoadingState extends LoginState {
-  const LoginLoadingState();
-}
-
-class LoginLoaded extends LoginState {
-  final String emailError;
+class LoginState extends Equatable {
+  final String message;
+  final String usernameError;
   final String passwordError;
   final bool isLoading;
-  final bool isError;
-  final String errorMessage;
+  final bool isFailure;
+  final bool isSuccess;
+  final LoginResponse? loginData;
 
-  const LoginLoaded({
-    this.emailError = '',
+  const LoginState({
+    this.message = '',
+    this.usernameError = '',
     this.passwordError = '',
     this.isLoading = false,
-    this.isError = false,
-    this.errorMessage = '',
+    this.isFailure = false,
+    this.isSuccess = false,
+    this.loginData,
   });
 
-  LoginLoaded copyWith({
-    String? emailError,
+  LoginState copyWith({
+    String? message,
+    String? usernameError,
     String? passwordError,
     bool? isLoading,
-    bool? isError,
-    String? errorMessage,
+    bool? isFailure,
+    bool? isSuccess,
+    LoginResponse? loginData,
   }) {
-    return LoginLoaded(
-      emailError: emailError ?? this.emailError,
+    return LoginState(
+      message: message ?? this.message,
+      usernameError: usernameError ?? this.usernameError,
       passwordError: passwordError ?? this.passwordError,
       isLoading: isLoading ?? this.isLoading,
-      isError: isError ?? this.isError,
-      errorMessage: errorMessage ?? this.errorMessage,
+      isFailure: isFailure ?? this.isFailure,
+      isSuccess: isSuccess ?? this.isSuccess,
+      loginData: loginData ?? this.loginData,
     );
   }
 
   @override
-  List<Object> get props => [
-        emailError,
+  List<Object?> get props => [
+        message,
+        usernameError,
         passwordError,
         isLoading,
-        isError,
-        errorMessage,
+        isFailure,
+        isSuccess,
+        loginData,
       ];
-}
-
-final class LoginSuccess extends LoginState {
-  const LoginSuccess(this.loginData);
-
-  final LoginResponse loginData;
-
-  @override
-  List<Object> get props => [loginData];
-}
-
-class LoginError extends LoginState {
-  final String message;
-
-  const LoginError({required this.message});
-
-  @override
-  List<Object> get props => [message];
 }

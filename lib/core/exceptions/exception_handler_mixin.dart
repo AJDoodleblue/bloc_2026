@@ -43,38 +43,39 @@ mixin ExceptionHandlerMixin on NetworkService {
         String message = '';
         String identifier = '';
         int statusCode = 0;
-        e as DioException;
-        if (e.response?.statusCode == 401) {
-          log("Unauthorized - Triggering logout...${e.response?.statusCode}");
-          logout();
 
-          return Left(
-            AppException(
-              message: "SESSION_EXPIRY_MSG".tr,
-              statusCode: 401,
-              identifier: 'Unauthorized at $endpoint',
-            ),
-          );
-        }
+        if (e is DioException) {
+          if (e.response?.statusCode == 401) {
+            log("Unauthorized - Triggering logout...${e.response?.statusCode}");
+            logout();
 
-        switch (e.runtimeType) {
-          case SocketException _:
-            e as SocketException;
-            message = 'Unable to connect to the server.';
-            statusCode = 0;
-            identifier = 'Socket Exception ${e.message}\n at  $endpoint';
-            break;
+            return Left(
+              AppException(
+                message: "SESSION_EXPIRY_MSG".tr,
+                statusCode: 401,
+                identifier: 'Unauthorized at $endpoint',
+              ),
+            );
+          }
 
-          case DioException _:
-            message = e.response?.data?['message'] ?? 'Internal Error occurred';
-            statusCode = 1;
-            identifier = 'DioException ${e.message} \nat  $endpoint';
-            break;
-
-          default:
-            message = 'Unknown error occurred';
-            statusCode = 2;
-            identifier = 'Unknown error ${e.toString()}\n at $endpoint';
+          // Extract error message from response body
+          final responseData = e.response?.data;
+          if (responseData is Map<String, dynamic> &&
+              responseData.containsKey('message')) {
+            message = responseData['message'];
+          } else {
+            message = e.message ?? 'An error occurred';
+          }
+          statusCode = e.response?.statusCode ?? 0;
+          identifier = 'DioException ${e.message} \nat $endpoint';
+        } else if (e is SocketException) {
+          message = 'Unable to connect to the server.';
+          statusCode = 0;
+          identifier = 'Socket Exception ${e.message}\n at $endpoint';
+        } else {
+          message = 'Unknown error occurred';
+          statusCode = 0;
+          identifier = 'Unknown error ${e.toString()}\n at $endpoint';
         }
 
         return Left(

@@ -1,4 +1,5 @@
 import 'package:bloc_2026/core/constants/routes.dart';
+import 'package:bloc_2026/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:bloc_2026/features/login/presentation/pages/login.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +19,12 @@ final GoRouter router = GoRouter(
       path: RoutesName.loginPath,
       builder: (BuildContext context, GoRouterState state) {
         return const Login();
+      },
+    ),
+    GoRoute(
+      path: RoutesName.homePage,
+      builder: (BuildContext context, GoRouterState state) {
+        return const Dashboard();
       },
     ),
   ],
