@@ -49,9 +49,6 @@ class AppColors {
   static const Color color807C7C = Color(0xFF807C7C);
   static const Color color1C1C1C = Color(0xFF1C1C1C);
 
-
-  // LINEAR GRADIENT COLORS
-  // static const Color color58BCBD = Color(0xFF58BCBD);
   static const Color color64AEAE = Color(0xFF64AEAE);
   static const Color colorBFF7F7 = Color(0xFFBFF7F7);
   static const Color color85D6D7 = Color(0xFF85D6D7);
@@ -66,5 +63,4 @@ class AppColors {
   static const Color color05A300 = Color(0xFF05A300);
   static const Color colorBB2106 = Color(0xFFBB2106);
   static const Color color0060AA = Color(0xFF0060AA);
-
 }

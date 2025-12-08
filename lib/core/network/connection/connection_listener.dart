@@ -70,7 +70,7 @@ class ConnectionStatusListener {
   }
 }
 
-updateConnectivity(
+void updateConnectivity(
   dynamic hasConnection,
   ConnectionStatusListener connectionStatus,
 ) {

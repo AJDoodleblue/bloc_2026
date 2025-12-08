@@ -151,7 +151,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  _showErrorSnackBar(BuildContext context, String message) {
+  void _showErrorSnackBar(BuildContext context, String message) {
     // CustomToast.showErrorToast(context, message);
     log("ERROR ----- $message");
   }

@@ -2,6 +2,7 @@ import 'package:bloc_2026/core/constants/endpoints.dart';
 import 'package:bloc_2026/core/exceptions/http_exception.dart';
 import 'package:bloc_2026/core/network/model/either.dart';
 import 'package:bloc_2026/core/network/network_service.dart';
+import 'package:bloc_2026/core/utils/error_logger.dart';
 import 'package:bloc_2026/features/login/data/models/login_request.dart';
 import 'package:bloc_2026/features/login/data/models/login_response.dart';
 
@@ -38,13 +39,7 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
         },
       );
     } catch (e) {
-      return Left(
-        AppException(
-          message: 'Unknown error occurred',
-          statusCode: 1,
-          identifier: '${e.toString()}\nLoginRemoteDataSource.loginUser',
-        ),
-      );
+      return ErrorLogger.handleException(e, 'LoginRemoteDataSource.loginUser');
     }
   }
 }

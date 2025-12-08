@@ -2,9 +2,9 @@ import 'package:bloc_2026/shared/config/dimens.dart';
 import 'package:bloc_2026/shared/theme/app_colors.dart';
 import 'package:bloc_2026/shared/theme/text_styles.dart';
 import 'package:bloc_2026/core/constants/constant.dart';
+import 'package:bloc_2026/shared/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomTextInput extends StatefulWidget {
   final String hintText;
@@ -100,11 +100,11 @@ class CustomTextInputState extends State<CustomTextInput> {
               const SizedBox(width: Dimens.standard_5),
               widget.isRequired
                   ? Text(
-                    '*',
-                    style: AppTextStyles.openSansRegular14w400.copyWith(
-                      color: AppColors.colorRed,
-                    ),
-                  )
+                      '*',
+                      style: AppTextStyles.openSansRegular14w400.copyWith(
+                        color: AppColors.colorRed,
+                      ),
+                    )
                   : const SizedBox(),
             ],
           ),
@@ -114,8 +114,8 @@ class CustomTextInputState extends State<CustomTextInput> {
             elevation: Dimens.standard_1,
             borderRadius: BorderRadius.circular(Dimens.standard_20),
             child: TextFormField(
-              onTapOutside:
-                  (value) => FocusManager.instance.primaryFocus?.unfocus(),
+              onTapOutside: (value) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
               enabled: widget.isEnabled,
               keyboardType: widget.inputType,
               inputFormatters: [
@@ -130,10 +130,9 @@ class CustomTextInputState extends State<CustomTextInput> {
               decoration: InputDecoration(
                 hintText: widget.hintText,
                 hintStyle: TextStyle(
-                  color:
-                      _errorMessage != null
-                          ? AppColors.colorRed
-                          : AppColors.color858485,
+                  color: _errorMessage != null
+                      ? AppColors.colorRed
+                      : AppColors.color858485,
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                 ),
@@ -143,36 +142,30 @@ class CustomTextInputState extends State<CustomTextInput> {
                   vertical: Dimens.standard_16,
                   horizontal: Dimens.standard_16,
                 ),
-                suffixIcon:
-                    widget.svgIconPath != null
-                        ? GestureDetector(
-                          onTap:
-                              widget.isPassword
-                                  ? () {
-                                    setState(() {
-                                      _isObscured =
-                                          !_isObscured; // Toggle password visibility
-                                    });
-                                  }
-                                  : null,
-                          child: Padding(
-                            padding: const EdgeInsets.all(Dimens.standard_12),
-                            child: SvgPicture.asset(
-                              widget.isPassword
-                                  ? _isObscured
-                                      ?  splashIcon//eyeStrokedIconAssetPath
+                suffixIcon: widget.svgIconPath != null
+                    ? GestureDetector(
+                        onTap: widget.isPassword
+                            ? () {
+                                setState(() {
+                                  _isObscured = !_isObscured;
+                                });
+                              }
+                            : null,
+                        child: Padding(
+                          padding: const EdgeInsets.all(Dimens.standard_12),
+                          child: getSvg(
+                            widget.isPassword
+                                ? _isObscured
+                                      ? splashIcon //eyeStrokedIconAssetPath
                                       : widget.svgIconPath!
-                                  : widget.svgIconPath!,
-                              colorFilter: ColorFilter.mode(
-                                _hasText
-                                    ? AppColors.color858485
-                                    : AppColors.colorD9D9D9,
-                                BlendMode.srcIn,
-                              ),
-                            ),
+                                : widget.svgIconPath!,
+                            color: _hasText
+                                ? AppColors.color858485
+                                : AppColors.colorD9D9D9,
                           ),
-                        )
-                        : null,
+                        ),
+                      )
+                    : null,
                 disabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(Dimens.standard_24),
                   borderSide: BorderSide.none,
@@ -195,10 +188,9 @@ class CustomTextInputState extends State<CustomTextInput> {
                 ),
               ),
               style: TextStyle(
-                color:
-                    widget.isEnabled
-                        ? AppColors.colorBlack
-                        : AppColors.greyText,
+                color: widget.isEnabled
+                    ? AppColors.colorBlack
+                    : AppColors.greyText,
                 fontSize: Dimens.standard_14,
                 fontWeight: FontWeight.w700,
               ),
