@@ -1,6 +1,9 @@
 {
   "LOGIN": "Login",
   "EMAIL": "Email Id",
-  "PASSWORD": "Password"
+  "PASSWORD": "Password",
+  "SIGN_UP": "Sign Up",
+  "EMAIL_VALIDATION_TEXT": "Please enter your email address",
+  "ENTER_VALID_EMAIL": "Please enter a valid email address",
+  "PASSWORD_VALIDATION_TEXT": "Please enter your password"
 }
-

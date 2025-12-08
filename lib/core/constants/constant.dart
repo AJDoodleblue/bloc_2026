@@ -5,8 +5,6 @@ const file = 'file';
 ///App language
 const englishLanguage = 'assets/language/en.json';
 
-///Asset Paths
-const splashIcon = 'assets/icons/splashIcon.svg';
 
 const userDbKey = 'userDbKey';
 const userToken = 'token';

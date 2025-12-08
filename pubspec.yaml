@@ -25,6 +25,7 @@ dependencies:
   flutter_pretty_dio_logger: ^3.0.0
   connectivity_plus: ^7.0.0
   cached_network_image: ^3.4.1
+  toastification: ^3.0.3
 
 dev_dependencies:
   flutter_test:

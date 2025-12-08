@@ -1,8 +1,9 @@
 class ApiEndpoint {
-  ///App version
-  static const String appVersion = 'auth/app-version';
-
+  /// Auth endpoints
   static const String login = 'auth/login';
-  static const String signup = 'auth/user-register';
-  static const String dropDownList = 'auth/get-base-data';
+  static const String authMe = 'auth/me';
+  static const String refreshToken = 'auth/refresh';
+
+  /// Dashboard endpoints
+  static const String products = 'products';
 }

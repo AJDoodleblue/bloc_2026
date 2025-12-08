@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:bloc_2026/core/constants/constant.dart';
+import 'package:bloc_2026/core/constants/asset_path.dart';
 import 'package:bloc_2026/core/constants/routes.dart';
 import 'package:bloc_2026/core/dependency_injection/injector.dart';
 import 'package:bloc_2026/core/extension/roles.dart';
@@ -11,6 +11,7 @@ import 'package:bloc_2026/shared/config/dimens.dart';
 import 'package:bloc_2026/shared/theme/app_colors.dart';
 import 'package:bloc_2026/shared/widgets/custom_loader.dart';
 import 'package:bloc_2026/shared/widgets/custom_text_input.dart';
+import 'package:bloc_2026/shared/widgets/custom_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_utils/get_utils.dart';
@@ -87,7 +88,7 @@ class _LoginState extends State<Login> {
                         textEditingController: mobileTextController,
                         hintText: "EMAIL".tr,
                         title: "EMAIL".tr,
-                        svgIconPath: splashIcon,
+                        svgIconPath: AssetPath.emailIcon,
                         inputType: TextInputType.emailAddress,
                         onChange: (value) {
                           context.read<LoginCubit>().validateEmail(value);
@@ -99,7 +100,7 @@ class _LoginState extends State<Login> {
                         textEditingController: passwordTextController,
                         hintText: "PASSWORD".tr,
                         title: "PASSWORD".tr,
-                        svgIconPath: splashIcon,
+                        svgIconPath: AssetPath.eyeOpenIcon,
                         isPassword: true,
                         onChange: (value) {
                           context.read<LoginCubit>().validatePassword(value);
@@ -152,7 +153,7 @@ class _LoginState extends State<Login> {
   }
 
   void _showErrorSnackBar(BuildContext context, String message) {
-    // CustomToast.showErrorToast(context, message);
+    CustomToast.showErrorToast(context, message);
     log("ERROR ----- $message");
   }
 }

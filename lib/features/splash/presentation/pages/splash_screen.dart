@@ -1,6 +1,8 @@
 import 'dart:async' show Timer;
 
+import 'package:bloc_2026/core/constants/asset_path.dart';
 import 'package:bloc_2026/core/constants/routes.dart';
+import 'package:bloc_2026/shared/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,8 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            FlutterLogo(size: 100),
+          children: [
+            getSvg(AssetPath.splashIcon),
             SizedBox(height: 20),
             Text(
               "Welcome to My App",

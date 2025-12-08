@@ -1,7 +1,7 @@
+import 'package:bloc_2026/core/constants/asset_path.dart';
 import 'package:bloc_2026/shared/config/dimens.dart';
 import 'package:bloc_2026/shared/theme/app_colors.dart';
 import 'package:bloc_2026/shared/theme/text_styles.dart';
-import 'package:bloc_2026/core/constants/constant.dart';
 import 'package:bloc_2026/shared/widgets/svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -156,7 +156,7 @@ class CustomTextInputState extends State<CustomTextInput> {
                           child: getSvg(
                             widget.isPassword
                                 ? _isObscured
-                                      ? splashIcon //eyeStrokedIconAssetPath
+                                      ? AssetPath.eyeClosedIcon
                                       : widget.svgIconPath!
                                 : widget.svgIconPath!,
                             color: _hasText
