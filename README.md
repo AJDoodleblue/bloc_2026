@@ -77,7 +77,8 @@ This project follows **Clean Architecture**. Each feature (e.g., `login`, `dashb
 *The "Face" of the feature. What the user sees.*
 
 *   **Cubit/BLoC** (`cubit/`): State management. Calls UseCases and updates the State.
-*   **Pages/Widgets** (`pages/`): Flutter Widgets (UI). They listen to the Cubit state and rebuild.
+*   **Pages** (`pages/`): Flutter Widgets (UI). They listen to the Cubit state and rebuild.
+*   **Widgets** (`widgets/`): Reusable widgets specific to this feature.
 
 ---
 
@@ -86,27 +87,27 @@ This project follows **Clean Architecture**. Each feature (e.g., `login`, `dashb
 This file manages all third-party libraries and assets.
 
 ### Key Packages
-| Package | Version | Purpose |
-|---------|---------|---------|
+| Package | Purpose |
+|---------|---------|
 | **State Management** |
-| `flutter_bloc` | ^9.1.1 | Helps manage state using BLoC/Cubit pattern. |
-| `bloc` | ^9.1.0 | Core BLoC logic. |
-| `equatable` | ^2.0.7 | Helps compare objects (useful for identifying if State has changed). |
-| `get_it` | ^9.2.0 | Service Locator for Dependency Injection (accessing objects anywhere). |
+| `flutter_bloc` | Helps manage state using BLoC/Cubit pattern. |
+| `bloc` | Core BLoC logic. |
+| `equatable` | Helps compare objects (useful for identifying if State has changed). |
+| `get_it` | Service Locator for Dependency Injection (accessing objects anywhere). |
 | **Networking** |
-| `dio` | ^5.9.0 | Powerful HTTP client for making API calls. |
-| `flutter_pretty_dio_logger` | ^3.0.0 | Prints readable API logs to the console for debugging. |
-| `connectivity_plus` | ^7.0.0 | Checks if the device has internet connection. |
+| `dio` | Powerful HTTP client for making API calls. |
+| `flutter_pretty_dio_logger` | Prints readable API logs to the console for debugging. |
+| `connectivity_plus` | Checks if the device has internet connection. |
 | **Navigation & UI** |
-| `go_router` | ^17.0.0 | Handles screen navigation and URLs (e.g., `/home`). |
-| `get` | ^4.7.3 | used here mainly for Translation (`.tr`) and Utils. |
-| `toastification` | ^3.0.3 | Shows nice toast messages/notifications in the app. |
-| `flutter_svg` | ^2.2.3 | Allows rendering SVG (vector) icons. |
-| `cupertino_icons` | ^1.0.8 | iOS style icons. |
-| `cached_network_image` | ^3.4.1 | Loads and caches internet images (so they load faster next time). |
+| `go_router` | Handles screen navigation and URLs (e.g., `/home`). |
+| `get` | used here mainly for Translation (`.tr`) and Utils. |
+| `toastification` | Shows nice toast messages/notifications in the app. |
+| `flutter_svg` | Allows rendering SVG (vector) icons. |
+| `cupertino_icons` | iOS style icons. |
+| `cached_network_image` | Loads and caches internet images (so they load faster next time). |
 | **Storage & Utils** |
-| `hive_flutter` | ^1.1.0 | Fast local NoSQL database (storage) for the app. |
-| `intl` | ^0.20.2 | Date and number formatting. |
+| `hive_flutter` | Fast local NoSQL database (storage) for the app. |
+| `intl` | Date and number formatting. |
 
 ### Pubspec File Explained
 
